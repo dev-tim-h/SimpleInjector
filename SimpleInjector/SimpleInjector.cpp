@@ -44,17 +44,6 @@ void* SimpleInjector::CreateScratchMemory(size_t _startAddress=0, size_t _range=
 
 void SimpleInjector::setupPatchFunctionMemory()
 {
-
-	/*MEM_ADDRESS_REQUIREMENTS requirement = { 0 };
-	MEM_EXTENDED_PARAMETER extended = { 0 };
-
-	requirement.LowestStartingAddress = (LPVOID)(m_hookAddr - 10,000);
-	requirement.HighestEndingAddress = (LPVOID)(m_hookAddr + 10,000);
-	requirement.Alignment = pow(1024, 2);
-
-	extended.Type = MemExtendedParameterAddressRequirements;
-	extended.Pointer = &requirement;*/
-
 	m_FuncLength = getFunctionLength(m_pInjectFunc);
 
 	m_ScratchMem = CreateScratchMemory(m_hookAddr, MAXDWORD32);
@@ -118,7 +107,7 @@ void SimpleInjector::injectFunction(uintptr_t _targetAddress, void* injection_fu
 	for (int c : og_bytes) std::cout << std::hex << std::uppercase << c << ' ';
 	std::cout << '\n';
 	//std::cout << std::hex << std::uppercase << og_bytes << std::endl;
-	while (size_t _len = ud_disassemble(&u))
+	while (uint8_t _len = ud_disassemble(&u))
 	{
 		total += _len;
 		printf("%zx\t%s\n", _len, ud_insn_asm(&u));
@@ -240,7 +229,7 @@ void SimpleInjector::cleanFunctionEntrance()
 	//unsigned char og_code[]{ 0x42, 0x89, 0x2C, 0xB1, 0x48, 0x8D, 0x8B, 0x08, 0xFC, 0xFF, 0xFF };
 
 	/*-------NOP Original Code--------*/
-	char hook_nop[m_hookLength];
+	char hook_nop[32];
 	memset(hook_nop, 0x90, m_hookLength);
 	WriteProcessMemory(m_targetProcess, (LPVOID)m_hookAddr, &hook_nop, m_hookLength, NULL);
 

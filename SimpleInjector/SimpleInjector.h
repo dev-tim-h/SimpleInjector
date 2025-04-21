@@ -6,7 +6,7 @@
 #include <Windows.h>
 
 #include <iostream>
-#include "../udis86/udis86.h"
+#include "libudis86/udis86.h"
 
 #define JMP_REL_32 0
 #define JMP_REL_64 1
