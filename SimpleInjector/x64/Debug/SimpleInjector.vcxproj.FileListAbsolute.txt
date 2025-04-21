@@ -1,1 +1,0 @@
-C:\Users\pc\source\repos\SimpleInjector\x64\Debug\SimpleInjector.lib
